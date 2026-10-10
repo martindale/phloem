@@ -19,9 +19,9 @@ const mk = (n: number, author = 'Ann', email = 'ann@example.com'): CommitEvent[]
 const json = (body: unknown, ok = true): Response => ({ ok, status: ok ? 200 : 404, json: async () => body }) as unknown as Response;
 
 describe('featured config', () => {
-  it('the shipped config is valid and names the three repos', () => {
+  it('the shipped config is valid and names the featured repos', () => {
     const cfg = validateConfig(JSON.parse(readFileSync('src/web/featured.config.json', 'utf8')));
-    expect(cfg.map((c) => c.repo)).toEqual(['stemdeckapp/stemdeck', 'thcp/netbattle', 'Encore-Karaoke-Labs/Encore-Karaoke']);
+    expect(cfg.map((c) => c.repo)).toEqual(['stemdeckapp/stemdeck', 'thcp/netbattle', 'Encore-Karaoke-Labs/Encore-Karaoke', 'RobertMCortese/encom-disc-wars']);
     expect(cfg[1].name).toBe('netbattle');
     expect(cfg[2].name).toBe('Encore Karaoke');
   });
