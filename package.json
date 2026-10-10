@@ -1,0 +1,39 @@
+{
+  "name": "phloem",
+  "private": true,
+  "description": "Watch a git history grow like a slime mold, in your browser.",
+  "license": "AGPL-3.0-only",
+  "version": "0.1.0",
+  "homepage": "https://phloem.stemdeck.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thcp/phloem.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && node scripts/check-dist.mjs",
+    "build:e2e": "tsc --noEmit && vite build --mode e2e --outDir dist-e2e --emptyOutDir",
+    "preview": "vite preview",
+    "preview:e2e": "vite preview --outDir dist-e2e --port 5290 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "bench": "esbuild scripts/bench.ts --bundle --platform=node --format=esm --log-level=warning --outfile=node_modules/.cache/phloem-bench.mjs && node node_modules/.cache/phloem-bench.mjs",
+    "e2e": "scripts/shots.sh",
+    "e2e:perf": "SCRIPT=tests/e2e/perf_check.py scripts/shots.sh",
+    "scale": "esbuild scripts/scale.ts --bundle --platform=node --format=esm --log-level=warning --outfile=node_modules/.cache/phloem-scale.mjs && node --expose-gc node_modules/.cache/phloem-scale.mjs",
+    "synth-log": "esbuild scripts/synthetic-log.ts --bundle --platform=node --format=esm --log-level=warning --outfile=node_modules/.cache/phloem-synth.mjs && SYNTH_LOG_MAIN=1 node node_modules/.cache/phloem-synth.mjs",
+    "director-trace": "esbuild scripts/director-trace.ts --bundle --platform=node --format=esm --log-level=warning --outfile=node_modules/.cache/phloem-director.mjs && node node_modules/.cache/phloem-director.mjs",
+    "featured": "node scripts/build-featured.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.4",
+    "vitest": "^3.2.7"
+  }
+}

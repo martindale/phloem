@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!--CSP-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0f0b06" />
+    <title>Phloem: watch a git history grow like a slime mold</title>
+    <meta
+      name="description"
+      content="Paste a public GitHub repository and watch its history grow as a slime mold: folders become junctions, files become food, every commit feeds the network. Runs entirely in your browser."
+    />
+    <link rel="canonical" href="%SITE_URL%" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Phloem" />
+    <meta property="og:title" content="Phloem: watch a git history grow like a slime mold" />
+    <meta property="og:description" content="Paste a public GitHub repository and watch every commit feed a growing slime-mold network. Runs in your browser; nothing is uploaded." />
+    <meta property="og:url" content="%SITE_URL%" />
+    <meta property="og:image" content="%SITE_URL%og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A golden slime-mold network grown from a repository's commit history on a dark agar background." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Phloem: watch a git history grow like a slime mold" />
+    <meta name="twitter:description" content="Paste a public GitHub repository and watch every commit feed a growing slime-mold network." />
+    <meta name="twitter:image" content="%SITE_URL%og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/src/ui/fonts/gm-display-roman.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <canvas id="stage" aria-label="Repository history grown as a slime mold network"></canvas>
+    <div id="app"></div>
+    <noscript>
+      <p class="gm-noscript">
+        Phloem draws with WebGL and needs JavaScript. Enable it to watch a git history grow like a slime mold.
+      </p>
+    </noscript>
+    <script type="module" src="/src/entry.ts"></script>
+  </body>
+</html>

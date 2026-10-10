@@ -1,0 +1,37 @@
+# dependencies and build output
+node_modules/
+dist/
+dist-e2e/
+.vite/
+.vercel/
+*.tsbuildinfo
+coverage/
+
+# local Python venv for the Playwright checks (tests/e2e/README.md)
+.venv/
+__pycache__/
+*.pyc
+
+# screenshots, traces and scratch output of the e2e/perf scripts (large; never commit)
+screenshots/
+scratch/
+*.log
+*.out
+*.trace
+
+# local environment files (use Vercel's environment variables; nothing in the repo reads secrets)
+.env
+.env.*
+!.env.example
+
+# local assistant / tool configuration
+.claude/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/

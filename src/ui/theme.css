@@ -1,0 +1,155 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/*
+ * Shared design tokens and base for the public web page (landing + viewer chrome).
+ * Palette: agar (ground), umber glass (panels), gold ink, butter highlight, amber action. Type: Fraunces (soft, wonky, subset and
+ * self-hosted) for the wordmark, headlines and commit captions; the system UI font for everything you read in small sizes.
+ * Loaded by src/entry.ts so the landing page paints before the engine chunk arrives.
+ */
+@font-face {
+  font-family: 'Fraunces GM';
+  src: url('./fonts/gm-display-roman.woff2') format('woff2');
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --gm-agar: #0f0b06;
+  --gm-umber: #17100a;
+  --gm-glass: rgba(18, 12, 6, 0.52);
+  --gm-ink: #e6c477;
+  --gm-butter: #ffe7a3;
+  --gm-dim: #b39d70;
+  --gm-faint: #8f7647;
+  --gm-amber: #e8a317;
+  --gm-amber-hi: #f6c551;
+  --gm-on-amber: #1c1205;
+  --gm-hair: rgba(230, 196, 119, 0.22);
+  --gm-hair-strong: rgba(230, 196, 119, 0.42);
+  --gm-alert: #f2a98f;
+  --gm-ok: #b9d58a;
+  --gm-display: 'Fraunces GM', 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --gm-ui: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+  --gm-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--gm-agar);
+  color: var(--gm-ink);
+  font-family: var(--gm-ui);
+}
+#stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; transform-origin: 50% 45%; transition: transform 1.6s var(--gm-ease); }
+/* behind the landing card the mold is blown up so its veins sweep past the card on every side; it settles back when the viewer starts */
+html.gm-backdrop #stage { transform: scale(1.55); }
+.gm-noscript { position: fixed; inset: 0; margin: 0; padding: 2rem; display: grid; place-content: center; text-align: center; line-height: 1.5; color: var(--gm-ink); }
+
+.gm-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Buttons shared by the landing page, the status pill and the viewer chrome */
+.gm-btn {
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  color: var(--gm-ink);
+  background: rgba(230, 196, 119, 0.06);
+  border: 1px solid var(--gm-hair);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  min-height: 2.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.gm-btn:hover { background: rgba(230, 196, 119, 0.13); border-color: var(--gm-hair-strong); color: var(--gm-butter); }
+.gm-btn:active { transform: translateY(1px); }
+.gm-btn:disabled { opacity: 0.55; cursor: progress; }
+.gm-btn.is-primary {
+  color: var(--gm-on-amber);
+  font-weight: 600;
+  background: linear-gradient(180deg, var(--gm-amber-hi), var(--gm-amber));
+  border-color: transparent;
+}
+.gm-btn.is-primary:hover { background: linear-gradient(180deg, #ffd56e, #f0b02a); color: var(--gm-on-amber); }
+.gm-btn.is-quiet { background: transparent; border-color: transparent; color: var(--gm-dim); text-decoration: underline; text-underline-offset: 3px; padding-inline: 0.5rem; }
+.gm-btn.is-quiet:hover { color: var(--gm-butter); background: transparent; }
+:where(.gm-btn, .gm-landing a, .gm-landing summary, .gm-landing select, .gm-landing input, .gm-chrome a, .gm-chrome select, .gm-chrome input, .gm-status button, .gm-status a):focus-visible {
+  outline: 2px solid var(--gm-butter);
+  outline-offset: 2px;
+}
+
+/* whole-page drop highlight while a file is dragged over the page (src/ui/dropzone.ts) */
+html.gm-dropping body::after {
+  content: 'Drop a git log file to grow it';
+  position: fixed;
+  inset: 12px;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  font-family: var(--gm-display);
+  font-size: 1.4rem;
+  color: var(--gm-butter);
+  background: rgba(15, 11, 6, 0.72);
+  border: 2px dashed var(--gm-butter);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* GitHub token form (landing card and viewer popover) */
+.gm-tokenpanel { display: grid; gap: 0.6rem; }
+.gm-tokenpanel p { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--gm-dim); }
+.gm-tokenpanel strong { color: var(--gm-ink); font-weight: 600; }
+.gm-tp-input {
+  font: inherit; font-size: 0.95rem; width: 100%; min-width: 0; color: var(--gm-butter); background: rgba(0, 0, 0, 0.38);
+  border: 1px solid var(--gm-hair); border-radius: 10px; padding: 0.6rem 0.75rem; min-height: 2.6rem;
+}
+.gm-tp-input::placeholder { color: var(--gm-faint); opacity: 1; }
+.gm-tp-row { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; align-items: center; }
+.gm-tp-save { min-height: 2.4rem; }
+.gm-tp-link { font-size: 0.85rem; color: var(--gm-ink); text-underline-offset: 3px; }
+.gm-tp-link::after { content: ' \2197'; }
+.gm-tp-link:hover { color: var(--gm-butter); }
+.gm-tokenpanel .gm-tp-state { color: var(--gm-ink); font-size: 0.8rem; }
+.gm-tp-remove { justify-self: start; padding-inline: 0; }
+.gm-tokenpanel .gm-tp-privacy { font-size: 0.78rem; }
+
+.gm-fatal {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  background: var(--gm-agar);
+  color: var(--gm-dim);
+  font-family: var(--gm-ui);
+}
+.gm-fatal h2 { margin: 0; font-family: var(--gm-display); font-weight: 380; font-size: 1.8rem; color: var(--gm-butter); }
+.gm-fatal p { margin: 0; max-width: 34rem; line-height: 1.5; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

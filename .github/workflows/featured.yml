@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Regenerates the prebuilt histories of the featured repositories (src/web/featured.config.json) into public/featured/ and commits
+# the result when it changed. An unchanged repository keeps its previous `generatedAt` (scripts/featured-lib.mjs: stableEntry), so a quiet
+# week produces no diff and no commit. Config only: nothing has run, and the weekly schedule is deliberately switched off (commented out
+# below) until the repository is public and you want the automation; run it by hand with "Run workflow" (workflow_dispatch) or
+# `npm run featured`. See docs/INGESTION.md ("Featured repositories").
+name: featured
+
+on:
+  workflow_dispatch:
+  # To re-enable the weekly run, uncomment:
+  # schedule:
+  #   - cron: '17 4 * * 1' # Mondays 04:17 UTC
+
+permissions:
+  contents: write
+
+concurrency:
+  group: featured
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build featured histories
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PHLOEM_TMP: ${{ runner.temp }}
+        run: npm run featured
+      - name: Commit if changed
+        run: |
+          git add public/featured
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate featured histories"
+          git push

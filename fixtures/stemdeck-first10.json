@@ -1,0 +1,771 @@
+[
+  {
+    "hash": "6cd5ac212760c2938fc44babcb6c6907c5672064",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-03T11:51:20+01:00",
+    "message": "Initial commit",
+    "files": [
+      {
+        "path": "LICENSE",
+        "status": "A",
+        "added": 201,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "656185042a6d7aa71889cf6ca0c9be0840b608d6",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-04T10:59:44+01:00",
+    "message": "Merge pull request #1 from thcp/dev",
+    "files": [
+      {
+        "path": ".dockerignore",
+        "status": "A",
+        "added": 11,
+        "removed": 0
+      },
+      {
+        "path": ".gitignore",
+        "status": "A",
+        "added": 56,
+        "removed": 0
+      },
+      {
+        "path": "README.md",
+        "status": "A",
+        "added": 201,
+        "removed": 0
+      },
+      {
+        "path": "app/__init__.py",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "app/api/__init__.py",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "app/api/events.py",
+        "status": "A",
+        "added": 43,
+        "removed": 0
+      },
+      {
+        "path": "app/api/jobs.py",
+        "status": "A",
+        "added": 86,
+        "removed": 0
+      },
+      {
+        "path": "app/api/router.py",
+        "status": "A",
+        "added": 12,
+        "removed": 0
+      },
+      {
+        "path": "app/api/stems.py",
+        "status": "A",
+        "added": 32,
+        "removed": 0
+      },
+      {
+        "path": "app/core/__init__.py",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "app/core/config.py",
+        "status": "A",
+        "added": 51,
+        "removed": 0
+      },
+      {
+        "path": "app/core/models.py",
+        "status": "A",
+        "added": 63,
+        "removed": 0
+      },
+      {
+        "path": "app/core/registry.py",
+        "status": "A",
+        "added": 41,
+        "removed": 0
+      },
+      {
+        "path": "app/main.py",
+        "status": "A",
+        "added": 48,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/__init__.py",
+        "status": "A",
+        "added": 4,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/analyze.py",
+        "status": "A",
+        "added": 281,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/collect.py",
+        "status": "A",
+        "added": 193,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/download.py",
+        "status": "A",
+        "added": 157,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/runner.py",
+        "status": "A",
+        "added": 108,
+        "removed": 0
+      },
+      {
+        "path": "app/pipeline/separate.py",
+        "status": "A",
+        "added": 90,
+        "removed": 0
+      },
+      {
+        "path": "build/Dockerfile",
+        "status": "A",
+        "added": 94,
+        "removed": 0
+      },
+      {
+        "path": "build/docker-compose.yml",
+        "status": "A",
+        "added": 27,
+        "removed": 0
+      },
+      {
+        "path": "pyproject.toml",
+        "status": "A",
+        "added": 62,
+        "removed": 0
+      },
+      {
+        "path": "run.sh",
+        "status": "A",
+        "added": 154,
+        "removed": 0
+      },
+      {
+        "path": "static/css/appbar.css",
+        "status": "A",
+        "added": 253,
+        "removed": 0
+      },
+      {
+        "path": "static/css/base.css",
+        "status": "A",
+        "added": 110,
+        "removed": 0
+      },
+      {
+        "path": "static/css/job.css",
+        "status": "A",
+        "added": 124,
+        "removed": 0
+      },
+      {
+        "path": "static/css/master.css",
+        "status": "A",
+        "added": 106,
+        "removed": 0
+      },
+      {
+        "path": "static/css/mixer.css",
+        "status": "A",
+        "added": 418,
+        "removed": 0
+      },
+      {
+        "path": "static/css/responsive.css",
+        "status": "A",
+        "added": 308,
+        "removed": 0
+      },
+      {
+        "path": "static/css/transport.css",
+        "status": "A",
+        "added": 616,
+        "removed": 0
+      },
+      {
+        "path": "static/css/variables.css",
+        "status": "A",
+        "added": 51,
+        "removed": 0
+      },
+      {
+        "path": "static/css/waves.css",
+        "status": "A",
+        "added": 998,
+        "removed": 0
+      },
+      {
+        "path": "static/index.html",
+        "status": "A",
+        "added": 405,
+        "removed": 0
+      },
+      {
+        "path": "static/js/audio.js",
+        "status": "A",
+        "added": 144,
+        "removed": 0
+      },
+      {
+        "path": "static/js/constants.js",
+        "status": "A",
+        "added": 37,
+        "removed": 0
+      },
+      {
+        "path": "static/js/job.js",
+        "status": "A",
+        "added": 313,
+        "removed": 0
+      },
+      {
+        "path": "static/js/main.js",
+        "status": "A",
+        "added": 106,
+        "removed": 0
+      },
+      {
+        "path": "static/js/mixer.js",
+        "status": "A",
+        "added": 483,
+        "removed": 0
+      },
+      {
+        "path": "static/js/phrases.js",
+        "status": "A",
+        "added": 54,
+        "removed": 0
+      },
+      {
+        "path": "static/js/player.js",
+        "status": "A",
+        "added": 670,
+        "removed": 0
+      },
+      {
+        "path": "static/js/state.js",
+        "status": "A",
+        "added": 121,
+        "removed": 0
+      },
+      {
+        "path": "static/js/transport.js",
+        "status": "A",
+        "added": 407,
+        "removed": 0
+      },
+      {
+        "path": "static/js/utils.js",
+        "status": "A",
+        "added": 16,
+        "removed": 0
+      },
+      {
+        "path": "static/vendor/multitrack.js",
+        "status": "A",
+        "added": 15,
+        "removed": 0
+      },
+      {
+        "path": "tests/__init__.py",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_jobs_api.py",
+        "status": "A",
+        "added": 84,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_pipeline_runner.py",
+        "status": "A",
+        "added": 80,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_stems_api.py",
+        "status": "A",
+        "added": 78,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_sweep.py",
+        "status": "A",
+        "added": 85,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_url_validation.py",
+        "status": "A",
+        "added": 52,
+        "removed": 0
+      },
+      {
+        "path": "uv.lock",
+        "status": "A",
+        "added": 2427,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "47c84990bd7ee35dd3a98dacf2f297d67e7cc250",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-04T11:08:25+01:00",
+    "message": "Merge pull request #2 from thcp/dev",
+    "files": [
+      {
+        "path": ".gitignore",
+        "status": "M",
+        "added": 0,
+        "removed": 1
+      },
+      {
+        "path": "README.md",
+        "status": "M",
+        "added": 2,
+        "removed": 0
+      },
+      {
+        "path": "stemdeck.png",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "ff5f3f5bce9c256fc758e4d01c830f63c577478f",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-04T11:49:33+01:00",
+    "message": "feat: add Buy Me A Coffee link in README and studio footer (#3)",
+    "files": [
+      {
+        "path": "README.md",
+        "status": "M",
+        "added": 2,
+        "removed": 0
+      },
+      {
+        "path": "static/index.html",
+        "status": "M",
+        "added": 10,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "19bfd86cad1f54dc99fb549e326604010c4aa5da",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-04T14:21:38+01:00",
+    "message": "ci: add Woodpecker pipeline (#4)",
+    "files": [
+      {
+        "path": ".woodpecker.yml",
+        "status": "A",
+        "added": 77,
+        "removed": 0
+      },
+      {
+        "path": "README.md",
+        "status": "M",
+        "added": 2,
+        "removed": 0
+      },
+      {
+        "path": "app/api/jobs.py",
+        "status": "M",
+        "added": 1,
+        "removed": 5
+      },
+      {
+        "path": "app/pipeline/collect.py",
+        "status": "M",
+        "added": 6,
+        "removed": 7
+      },
+      {
+        "path": "app/pipeline/runner.py",
+        "status": "M",
+        "added": 8,
+        "removed": 8
+      },
+      {
+        "path": "build/Dockerfile",
+        "status": "M",
+        "added": 9,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "5b251ccc3b02c7e5aa4d0f89b0fc7cf3ad14c8a4",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-07T17:06:53+01:00",
+    "message": "Windows portable app: dual CPU/NVIDIA builds, DAW UI improvements (#5)",
+    "files": [
+      {
+        "path": ".gitignore",
+        "status": "M",
+        "added": 6,
+        "removed": 0
+      },
+      {
+        "path": ".woodpecker/ci.yml",
+        "status": "R",
+        "added": 8,
+        "removed": 0,
+        "old_path": ".woodpecker.yml"
+      },
+      {
+        "path": ".woodpecker/windows-release.yml",
+        "status": "A",
+        "added": 71,
+        "removed": 0
+      },
+      {
+        "path": "README.md",
+        "status": "M",
+        "added": 35,
+        "removed": 4
+      },
+      {
+        "path": "app/api/events.py",
+        "status": "M",
+        "added": 7,
+        "removed": 1
+      },
+      {
+        "path": "app/api/jobs.py",
+        "status": "M",
+        "added": 30,
+        "removed": 5
+      },
+      {
+        "path": "app/core/config.py",
+        "status": "M",
+        "added": 60,
+        "removed": 5
+      },
+      {
+        "path": "app/main.py",
+        "status": "M",
+        "added": 53,
+        "removed": 4
+      },
+      {
+        "path": "app/pipeline/analyze.py",
+        "status": "M",
+        "added": 5,
+        "removed": 5
+      },
+      {
+        "path": "app/pipeline/collect.py",
+        "status": "M",
+        "added": 14,
+        "removed": 5
+      },
+      {
+        "path": "app/pipeline/runner.py",
+        "status": "M",
+        "added": 20,
+        "removed": 16
+      },
+      {
+        "path": "app/pipeline/separate.py",
+        "status": "M",
+        "added": 24,
+        "removed": 0
+      },
+      {
+        "path": "desktop/package-lock.json",
+        "status": "A",
+        "added": 247,
+        "removed": 0
+      },
+      {
+        "path": "desktop/package.json",
+        "status": "A",
+        "added": 14,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/Cargo.lock",
+        "status": "A",
+        "added": 4651,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/Cargo.toml",
+        "status": "A",
+        "added": 16,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/build.rs",
+        "status": "A",
+        "added": 3,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/capabilities/default.json",
+        "status": "A",
+        "added": 7,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/icons/icon.ico",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/icons/icon.png",
+        "status": "A",
+        "added": 0,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/src/main.rs",
+        "status": "A",
+        "added": 770,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/tauri.conf.json",
+        "status": "A",
+        "added": 32,
+        "removed": 0
+      },
+      {
+        "path": "desktop/ui/index.html",
+        "status": "A",
+        "added": 37,
+        "removed": 0
+      },
+      {
+        "path": "desktop/ui/setup.css",
+        "status": "A",
+        "added": 189,
+        "removed": 0
+      },
+      {
+        "path": "desktop/ui/setup.js",
+        "status": "A",
+        "added": 155,
+        "removed": 0
+      },
+      {
+        "path": "packaging/windows/README-WINDOWS.txt",
+        "status": "A",
+        "added": 25,
+        "removed": 0
+      },
+      {
+        "path": "packaging/windows/THIRD_PARTY_NOTICES.txt",
+        "status": "A",
+        "added": 74,
+        "removed": 0
+      },
+      {
+        "path": "scripts/windows/make-portable.ps1",
+        "status": "A",
+        "added": 141,
+        "removed": 0
+      },
+      {
+        "path": "static/css/appbar.css",
+        "status": "M",
+        "added": 9,
+        "removed": 4
+      },
+      {
+        "path": "static/css/base.css",
+        "status": "M",
+        "added": 2,
+        "removed": 2
+      },
+      {
+        "path": "static/css/transport.css",
+        "status": "M",
+        "added": 28,
+        "removed": 12
+      },
+      {
+        "path": "static/css/waves.css",
+        "status": "M",
+        "added": 10,
+        "removed": 8
+      },
+      {
+        "path": "static/index.html",
+        "status": "M",
+        "added": 1,
+        "removed": 1
+      },
+      {
+        "path": "static/js/job.js",
+        "status": "M",
+        "added": 11,
+        "removed": 2
+      },
+      {
+        "path": "static/js/main.js",
+        "status": "M",
+        "added": 10,
+        "removed": 0
+      },
+      {
+        "path": "static/js/mixer.js",
+        "status": "M",
+        "added": 10,
+        "removed": 1
+      },
+      {
+        "path": "static/js/player.js",
+        "status": "M",
+        "added": 1,
+        "removed": 1
+      },
+      {
+        "path": "static/js/transport.js",
+        "status": "M",
+        "added": 10,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_config.py",
+        "status": "A",
+        "added": 84,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_health_api.py",
+        "status": "A",
+        "added": 19,
+        "removed": 0
+      },
+      {
+        "path": "tests/test_pipeline_runner.py",
+        "status": "M",
+        "added": 1,
+        "removed": 1
+      }
+    ]
+  },
+  {
+    "hash": "45f30440eca3d348e757c7f67527d532f994b370",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-07T17:28:27+01:00",
+    "message": "Remove manual trigger for Windows release events (#8)",
+    "files": [
+      {
+        "path": ".woodpecker/windows-release.yml",
+        "status": "M",
+        "added": 0,
+        "removed": 2
+      }
+    ]
+  },
+  {
+    "hash": "b8e6349902f66d078debcc7ecf83fd959e584542",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-07T17:34:36+01:00",
+    "message": "ci(windows-release): allow manual trigger on any branch (#9)",
+    "files": [
+      {
+        "path": ".woodpecker/windows-release.yml",
+        "status": "M",
+        "added": 1,
+        "removed": 0
+      }
+    ]
+  },
+  {
+    "hash": "829f3a596d7b54571c1112ce6557e7f834781e92",
+    "author": "Tha.Les",
+    "email": "",
+    "date": "2026-05-07T20:03:08+01:00",
+    "message": "fix: mixer volume/mute, download button, pyvenv.cfg portability, CI agent routing (#11)",
+    "files": [
+      {
+        "path": ".woodpecker/ci.yml",
+        "status": "M",
+        "added": 14,
+        "removed": 0
+      },
+      {
+        "path": "desktop/src-tauri/src/main.rs",
+        "status": "M",
+        "added": 42,
+        "removed": 0
+      },
+      {
+        "path": "static/js/audio.js",
+        "status": "M",
+        "added": 14,
+        "removed": 9
+      },
+      {
+        "path": "static/js/main.js",
+        "status": "M",
+        "added": 6,
+        "removed": 0
+      },
+      {
+        "path": "static/js/mixer.js",
+        "status": "M",
+        "added": 33,
+        "removed": 8
+      }
+    ]
+  },
+  {
+    "hash": "a1c551e97982e1c5a6fedab3b1a11dbf75e2a9c3",
+    "author": "Thales",
+    "email": "",
+    "date": "2026-05-07T20:20:46+01:00",
+    "message": "ci(windows-release): use powershell image for local backend steps",
+    "files": [
+      {
+        "path": ".woodpecker/windows-release.yml",
+        "status": "M",
+        "added": 4,
+        "removed": 4
+      }
+    ]
+  }
+]

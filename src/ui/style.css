@@ -1,0 +1,49 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* Engine stage: the WebGL canvas, the label canvas and the hover card. The page chrome lives in theme.css, chrome/ and landing/. */
+:root {
+  --agar: #0f0b06;
+  --ink: #e6c477;
+  --ink-dim: #8f7647;
+  --butter: #ffe7a3;
+  --hair: rgba(230, 196, 119, 0.2);
+  --label-face: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --ui-face: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+#stage {
+  touch-action: none;
+  cursor: grab;
+}
+#stage:active { cursor: grabbing; }
+
+/* Name labels: a 2D canvas over the stage, drawn by src/labels/layer.ts */
+#labels {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Hover card: full path, last touching commit */
+.tip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  max-width: min(26rem, calc(100vw - 24px));
+  padding: 8px 11px 9px;
+  background: rgba(14, 9, 3, 0.86);
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  pointer-events: none;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  font-family: var(--label-face);
+}
+.tip[hidden] { display: none; }
+.tip-path { font-size: 0.95rem; color: var(--butter); overflow-wrap: anywhere; line-height: 1.3; }
+.tip-msg { font-size: 0.82rem; font-style: italic; color: var(--ink); margin-top: 3px; line-height: 1.3; }
+.tip-msg:empty, .tip-meta:empty { display: none; }
+.tip-meta { font-family: var(--ui-face); font-size: 0.7rem; color: var(--ink-dim); margin-top: 3px; font-variant-numeric: tabular-nums; }

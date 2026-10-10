@@ -1,0 +1,7 @@
+{
+  "repos": [
+    { "repo": "stemdeckapp/stemdeck", "name": "stemdeck", "branch": "main", "note": "The app Phloem was built for." },
+    { "repo": "thcp/netbattle", "name": "netbattle", "branch": "main" },
+    { "repo": "Encore-Karaoke-Labs/Encore-Karaoke", "name": "Encore Karaoke", "branch": "main", "note": "Open-source karaoke app." }
+  ]
+}

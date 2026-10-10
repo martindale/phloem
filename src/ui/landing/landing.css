@@ -1,0 +1,213 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* Landing card. Everything is namespaced gm-*; tokens come from ../theme.css. */
+.gm-landing {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color: var(--gm-ink);
+  /* the mold shows through: a vignette that is clear at the edges and calm behind the card */
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 48%, rgba(10, 7, 3, 0.62), rgba(10, 7, 3, 0.28) 62%, rgba(10, 7, 3, 0.12) 100%),
+    linear-gradient(to bottom, rgba(10, 7, 3, 0.55), rgba(10, 7, 3, 0) 18%, rgba(10, 7, 3, 0) 80%, rgba(10, 7, 3, 0.6));
+  -webkit-text-size-adjust: 100%;
+}
+.gm-landing.is-overlay { background: rgba(8, 5, 2, 0.74); }
+
+.gm-land-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(14px, env(safe-area-inset-top)) max(clamp(16px, 4vw, 40px), env(safe-area-inset-right)) 0 max(clamp(16px, 4vw, 40px), env(safe-area-inset-left));
+}
+.gm-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gm-butter);
+  text-decoration: none;
+  font-family: var(--gm-display);
+  font-size: 1.35rem;
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  padding: 0.5rem 0;
+}
+.gm-brand .gm-mark { color: var(--gm-amber-hi); flex: none; }
+
+.gm-land-main {
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 32px) max(clamp(16px, 4vw, 40px), env(safe-area-inset-right)) clamp(12px, 3vw, 32px) max(clamp(16px, 4vw, 40px), env(safe-area-inset-left));
+}
+
+.gm-card {
+  width: min(33rem, 100%);
+  padding: clamp(1.15rem, 3.6vw, 1.8rem);
+  background: var(--gm-glass);
+  -webkit-backdrop-filter: blur(9px) saturate(1.2);
+  backdrop-filter: blur(9px) saturate(1.2);
+  border: 1px solid var(--gm-hair);
+  border-radius: 22px;
+  box-shadow: 0 1px 0 rgba(255, 231, 163, 0.08) inset, 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+/* the entrance plays once (the first time the card is shown), not again when it comes back with an error */
+.gm-landing[data-first] .gm-card { animation: gm-card-in 0.8s var(--gm-ease) both; }
+@keyframes gm-card-in {
+  from { opacity: 0.55; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.gm-card h1 {
+  margin: 0 0 0.6rem;
+  font-family: var(--gm-display);
+  font-weight: 380;
+  font-size: clamp(1.8rem, 6vw, 2.45rem);
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  color: var(--gm-butter);
+  text-wrap: balance;
+}
+.gm-lede {
+  margin: 0 0 1.1rem;
+  max-width: 34em;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--gm-dim);
+}
+
+.gm-form { display: grid; gap: 0.7rem; }
+.gm-label { font-size: 0.82rem; color: var(--gm-ink); }
+.gm-field { display: flex; gap: 0.5rem; }
+.gm-landing input[type='text'],
+.gm-landing input[type='password'],
+.gm-landing select {
+  font: inherit;
+  font-size: 1rem;
+  min-width: 0;
+  color: var(--gm-butter);
+  background: rgba(0, 0, 0, 0.38);
+  border: 1px solid var(--gm-hair);
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  min-height: 2.9rem;
+}
+.gm-landing input::placeholder { color: var(--gm-faint); opacity: 1; }
+.gm-landing input:hover, .gm-landing select:hover { border-color: var(--gm-hair-strong); }
+.gm-field input { flex: 1; }
+.gm-field .gm-go { border-radius: 12px; padding-inline: 1.3rem; font-size: 1rem; min-height: 2.9rem; }
+.gm-landing input[aria-invalid] { border-color: var(--gm-alert); }
+.gm-landing select option { background: #1a130a; color: var(--gm-butter); }
+.gm-err { margin: 0; font-size: 0.85rem; line-height: 1.4; color: var(--gm-alert); }
+
+
+.gm-feat-label { margin: 0 0 0.4rem; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--gm-butter); }
+.gm-feat-label span { text-transform: none; letter-spacing: 0; color: var(--gm-dim); margin-left: 0.4rem; }
+.gm-featured ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.5rem; list-style: none; margin: 0 0 0.7rem; padding: 0; }
+.gm-feat {
+  font: inherit;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+  color: var(--gm-ink);
+  background: rgba(230, 196, 119, 0.07);
+  border: 1px solid var(--gm-hair-strong);
+  border-radius: 12px;
+  padding: 0.55rem 0.8rem;
+  min-height: 3rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.gm-feat:hover { background: rgba(230, 196, 119, 0.16); color: var(--gm-butter); }
+.gm-feat-name { font-size: 1rem; font-weight: 600; }
+.gm-feat-meta { font-size: 0.78rem; color: var(--gm-dim); }
+.gm-landing :focus-visible.gm-feat { outline: 2px solid var(--gm-butter); outline-offset: 2px; }
+
+.gm-opt { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--gm-ink); }
+.gm-opt select { font-size: 0.9rem; min-height: 2.4rem; padding: 0.4rem 0.7rem; border-radius: 10px; }
+.gm-estimate { margin: -0.2rem 0 0; min-height: 2.9em; font-size: 0.83rem; line-height: 1.45; color: var(--gm-dim); }
+.gm-estimate[data-mode='blocked'] { color: var(--gm-alert); }
+
+.gm-more { font-size: 0.88rem; }
+.gm-more > summary {
+  cursor: pointer;
+  color: var(--gm-ink);
+  padding: 0.35rem 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+}
+.gm-more > summary::-webkit-details-marker { display: none; }
+.gm-more > summary::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+  flex: none;
+}
+.gm-more[open] > summary::before { transform: rotate(45deg); }
+.gm-more > summary span { color: var(--gm-dim); }
+.gm-more > summary:hover { color: var(--gm-butter); }
+.gm-more-body { display: grid; gap: 0.6rem; padding: 0.4rem 0 0.2rem 0.95rem; border-left: 1px solid var(--gm-hair); margin-left: 0.2rem; }
+.gm-more-body p { margin: 0; line-height: 1.5; color: var(--gm-dim); font-size: 0.85rem; }
+.gm-more-body strong { color: var(--gm-ink); font-weight: 600; }
+.gm-more-body code { font-size: 0.82em; color: var(--gm-butter); }
+.gm-check { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.82rem; color: var(--gm-dim); line-height: 1.4; }
+.gm-check input { margin-top: 0.15rem; accent-color: var(--gm-amber); }
+.gm-ext { font-size: 0.82rem; color: var(--gm-ink); width: fit-content; text-underline-offset: 3px; }
+.gm-ext:hover { color: var(--gm-butter); }
+
+.gm-alt { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px solid var(--gm-hair); }
+.gm-alt .gm-log-box { flex: 1 1 14rem; }
+.gm-alt .gm-log-box > summary { margin-left: auto; }
+.gm-alt .gm-log-box[open] { flex-basis: 100%; }
+.gm-cmd { display: flex; gap: 0.5rem; align-items: flex-start; }
+.gm-cmd pre { flex: 1; min-width: 0; margin: 0; padding: 0.6rem 0.7rem; overflow-x: auto; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--gm-hair); border-radius: 10px; font-size: 0.74rem; line-height: 1.5; color: var(--gm-butter); }
+.gm-cmd .gm-btn { min-height: 2.2rem; padding: 0.35rem 0.8rem; flex: none; }
+.gm-file { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; cursor: pointer; position: relative; }
+.gm-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.gm-file:focus-within .gm-btn { outline: 2px solid var(--gm-butter); outline-offset: 2px; }
+.gm-file-hint { font-size: 0.8rem; color: var(--gm-faint); }
+
+/* error / rate-limit banner inside the card */
+.gm-banner { margin: 0 0 1rem; padding: 0.8rem 0.95rem; border-radius: 12px; border: 1px solid var(--gm-hair); background: rgba(0, 0, 0, 0.3); }
+.gm-banner[data-tone='error'] { border-color: rgba(242, 169, 143, 0.5); }
+.gm-banner[data-tone='warn'] { border-color: rgba(246, 197, 81, 0.5); }
+.gm-st-title { margin: 0; font-size: 0.92rem; font-weight: 600; color: var(--gm-butter); line-height: 1.35; }
+.gm-banner[data-tone='error'] .gm-st-title { color: var(--gm-alert); }
+.gm-st-detail { margin: 0.35rem 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--gm-dim); }
+.gm-st-notes p { margin: 0.35rem 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--gm-dim); }
+.gm-st-notes:empty { display: none; }
+.gm-st-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; }
+.gm-st-actions .gm-btn { min-height: 2.2rem; padding: 0.35rem 0.9rem; }
+
+.gm-land-foot { padding: 0.5rem 1rem max(14px, env(safe-area-inset-bottom)); text-align: center; }
+.gm-land-foot p { margin: 0; font-size: 0.78rem; color: var(--gm-dim); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9); }
+.gm-land-foot a { color: var(--gm-ink); text-underline-offset: 3px; }
+
+@media (max-width: 520px) {
+  .gm-field { flex-direction: column; }
+  .gm-field .gm-go { width: 100%; }
+  .gm-card { border-radius: 18px; }
+  .gm-cmd { flex-direction: column; }
+  .gm-cmd .gm-btn { align-self: flex-start; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .gm-lede { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-landing[data-first] .gm-card { animation: none; }
+}
+
+.gm-land-foot .gm-src { color: var(--gm-dim); text-underline-offset: 3px; white-space: nowrap; }
+.gm-land-foot .gm-src:hover { color: var(--gm-butter); }
