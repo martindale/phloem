@@ -8,12 +8,14 @@ export interface Track {
   file: string;
 }
 
-/** Soundtrack generated with Suno for Phloem. Files live in public/audio/ and are same-origin (media-src 'self'). */
+/** Soundtrack generated with Suno for Phloem. Hosted on a Cloudflare R2 bucket (EU) behind this host, so the audio is not in the repository. */
+const AUDIO_BASE = 'https://audio.stemdeck.app/audio/';
+
 export const TRACKS: readonly Track[] = [
-  { title: 'Heartbeat Drip', file: 'audio/heartbeat-drip.mp3' },
-  { title: 'Earth Pulse', file: 'audio/earth-pulse.mp3' },
-  { title: 'Life Blossoming', file: 'audio/life-blossoming.mp3' },
-  { title: 'Life in Bloom', file: 'audio/life-in-bloom.mp3' },
+  { title: 'Heartbeat Drip', file: 'heartbeat-drip.mp3' },
+  { title: 'Earth Pulse', file: 'earth-pulse.mp3' },
+  { title: 'Life Blossoming', file: 'life-blossoming.mp3' },
+  { title: 'Life in Bloom', file: 'life-in-bloom.mp3' },
 ];
 
 /**
@@ -60,13 +62,14 @@ export class MusicPlayer {
   }
 
   private src(i: number): string {
-    return new URL(this.tracks[i].file, document.baseURI).href; // relative to the page, like the featured files (base: './')
+    return new URL(this.tracks[i].file, AUDIO_BASE).href;
   }
 
   private ensureAudio(): HTMLAudioElement {
     if (this.audio) return this.audio;
     const a = new Audio();
     a.preload = 'none';
+    a.crossOrigin = 'anonymous'; // the bucket sends CORS headers; without them Web Audio would mute the beat analysis and the sound
     a.addEventListener('ended', () => this.skip());
     a.addEventListener('play', () => (this.sync(), this.startBeat(a)));
     for (const ev of ['playing', 'pause', 'emptied', 'error']) a.addEventListener(ev, () => this.sync());

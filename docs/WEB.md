@@ -76,7 +76,7 @@ Any failure (403, 429, network, odd body) is silent: the local list stays and se
 
 ## Content Security Policy
 
-`default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.github.com; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'`
+`default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self' https://audio.stemdeck.app; connect-src 'self' https://api.github.com; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'`
 (+ `frame-ancestors 'none'` where headers are possible). No inline script or style anywhere (the build sets `assetsInlineLimit: 0`; JS sets styles through the CSSOM, which CSP allows).
 The build injects it as a `<meta>` tag (so hosts that cannot set headers enforce it too; dev server excluded for HMR) and `public/_headers` / `vercel.json` repeat it as a header;
 `tests/web.test.ts` checks the three are identical, and `tests/e2e/web_check.py` fails on any `securitypolicyviolation` event.

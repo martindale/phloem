@@ -25,7 +25,7 @@ export const CSP = [
   "style-src 'self'",
   "img-src 'self' data:",
   "font-src 'self'",
-  "media-src 'self'",
+  "media-src 'self' https://audio.stemdeck.app",
   "connect-src 'self' https://api.github.com",
   "worker-src 'self'",
   "manifest-src 'self'",
