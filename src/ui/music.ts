@@ -8,7 +8,7 @@ export interface Track {
   file: string;
 }
 
-/** Soundtrack generated with Suno for Phloem. Hosted on a Cloudflare R2 bucket (EU) behind this host, so the audio is not in the repository. */
+/** Soundtrack for Phloem. Hosted on a Cloudflare R2 bucket (EU) behind this host, so the audio is not in the repository. */
 const AUDIO_BASE = 'https://audio.stemdeck.app/audio/';
 
 export const TRACKS: readonly Track[] = [
