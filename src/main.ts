@@ -17,6 +17,7 @@ import { showFatal } from './ui/chrome/fatal';
 import { WebApp } from './ui/webapp';
 import { bridge } from './web/bridge';
 import { SimClient } from './worker/client';
+import { beatState } from './util/beat';
 import { createFrameLimiter, parseMaxFps } from './util/frameLimiter';
 
 const canvas = document.getElementById('stage') as HTMLCanvasElement;
@@ -154,10 +155,10 @@ if (params.has('paused')) {
 }
 
 // ---------------------------------------------------------------- input
-// Mouse: left-drag = pan, middle-drag = orbit, right button = inert, wheel = zoom to cursor,
+// Mouse: left-drag = pan, middle-drag = orbit, right-drag = rotate left/right around the vertical axis (no tilt), wheel = zoom to cursor,
 // double-click = reset + auto-fit. Touch: one finger = orbit, two fingers = pinch zoom + pan,
 // double-tap = reset. Key O toggles the slow auto-rotation (R resets, via the shell).
-type Drag = { x: number; y: number; pan: boolean };
+type Drag = { x: number; y: number; pan: boolean; spin: boolean };
 const pointers = new Map<number, Drag>();
 let lastTap = { t: 0, x: 0, y: 0 };
 let tapStart = { t: 0, x: 0, y: 0, moved: false };
@@ -171,14 +172,14 @@ canvas.addEventListener('auxclick', (e) => {
 });
 canvas.addEventListener('pointerdown', (e) => {
   if (e.button === 1) e.preventDefault();
-  if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 1) return; // right/other buttons: inert
+  if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 1 && e.button !== 2) return; // other buttons: inert
   try {
     canvas.setPointerCapture(e.pointerId);
   } catch {
     // synthetic or already-released pointers cannot be captured; dragging still works inside the canvas
   }
   userInput();
-  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, pan: e.pointerType === 'mouse' && e.button === 0 });
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, pan: e.pointerType === 'mouse' && e.button === 0, spin: e.pointerType === 'mouse' && e.button === 2 });
   camera.dragging = true;
   labels.setDragging(true);
   if (pointers.size === 1) tapStart = { t: performance.now(), x: e.clientX, y: e.clientY, moved: false };
@@ -195,6 +196,7 @@ canvas.addEventListener('pointermove', (e) => {
   if (Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > 8) tapStart.moved = true;
   if (pointers.size === 1) {
     if (p.pan) camera.pan(dx, dy);
+    else if (p.spin) camera.orbit(dx, 0); // right-drag: yaw only, the tilt stays where it is
     else camera.orbit(dx, dy);
   } else if (pointers.size === 2) {
     // pinch: zoom around the midpoint of the two pointers; moving the midpoint pans
@@ -342,6 +344,7 @@ function frame(now: number): void {
     if (director.authority > 0) camera.auto = false; // the director owns target and distance; reset() hands them back
   }
   camera.update(renderer.width, renderer.height, dt);
+  renderer.pulse = renderer.reducedMotion ? 0 : beatState.level;
   renderer.render(camera, now / 1000);
   const ldpr = renderer.width / Math.max(1, canvas.clientWidth);
   labelView.begin(camera, renderer.width, renderer.height, ldpr, renderer.wobble, now / 1000);

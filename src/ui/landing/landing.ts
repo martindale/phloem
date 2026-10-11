@@ -7,6 +7,7 @@ import { FEATURED, describeStats, loadFeaturedIndex } from '../../web/featured';
 import { sourceLink } from '../../web/source';
 import { estimatePlan } from '../../web/plan';
 import { describeStatus, type StatusAction } from '../../web/statusview';
+import { Suggester, localSuggestions, type LocalRepo, type Suggestion } from '../../web/suggest';
 import { getToken, onTokenChange } from '../../web/token';
 import { DEFAULT_MAX, resolveMax, type MaxSetting } from '../../web/urlstate';
 import { StatusDom } from '../statusdom';
@@ -54,6 +55,15 @@ export class Landing implements LandingApi {
   private closeBtn: HTMLButtonElement;
   private banner: HTMLElement;
   private bannerDom: StatusDom;
+  private list: HTMLUListElement;
+  private options: Suggestion[] = [];
+  private active = -1;
+  private recent: LocalRepo[] = [];
+  private recentLoaded = false;
+  private suggester = new Suggester({
+    local: (t) => localSuggestions(t, FEATURED, this.recent),
+    token: () => getToken(),
+  });
   private opener: HTMLElement | null = null;
   private overlay = false;
   private busy = false;
@@ -85,7 +95,10 @@ export class Landing implements LandingApi {
     <form class="gm-form" novalidate>
       <label for="gm-repo" class="gm-label">GitHub repository</label>
       <div class="gm-field">
-        <input id="gm-repo" name="repo" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="owner/name or a github.com link" aria-describedby="gm-err" />
+        <div class="gm-combo">
+          <input id="gm-repo" name="repo" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="owner/name or a github.com link" aria-describedby="gm-err" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="gm-suggest" />
+          <ul id="gm-suggest" class="gm-suggest" role="listbox" aria-label="Repository suggestions" hidden></ul>
+        </div>
         <button type="submit" class="gm-btn is-primary gm-go">Visualize</button>
       </div>
       <p id="gm-err" class="gm-err" role="alert" hidden></p>
@@ -126,6 +139,7 @@ export class Landing implements LandingApi {
     this.estimate = q('.gm-estimate');
     this.tokenBox = q('.gm-token-box');
     q('.gm-token-host').append(this.tokenPanel.el);
+    this.list = q('#gm-suggest');
     this.go = q('.gm-go');
     this.closeBtn = q('.gm-land-close');
     this.banner = q('.gm-banner');
@@ -141,7 +155,18 @@ export class Landing implements LandingApi {
       e.preventDefault();
       this.submit();
     });
-    this.repo.addEventListener('input', () => this.setError(''));
+    this.repo.addEventListener('input', () => {
+      this.setError('');
+      this.suggest();
+    });
+    this.repo.addEventListener('keydown', (e) => this.onSuggestKey(e));
+    this.repo.addEventListener('blur', () => this.closeSuggest());
+    // keep focus in the input while an option is pressed, then select on click (mouse and touch)
+    this.list.addEventListener('mousedown', (e) => e.preventDefault());
+    this.list.addEventListener('click', (e) => {
+      const li = (e.target as HTMLElement).closest<HTMLElement>('[role=option]');
+      if (li) this.choose(Number(li.dataset.i));
+    });
     this.maxSel.addEventListener('change', () => this.updateEstimate());
     onTokenChange(() => this.updateEstimate());
     this.root.querySelectorAll<HTMLButtonElement>('.gm-feat').forEach((b) =>
@@ -199,6 +224,7 @@ export class Landing implements LandingApi {
   }
 
   hide(): void {
+    this.closeSuggest();
     if (!this.visible) return;
     this.visible = false;
     this.root.hidden = true;
@@ -242,6 +268,100 @@ export class Landing implements LandingApi {
       this.hide();
       void bridge.whenApp().then((app) => app.resume());
     }
+  }
+
+  // ------------------------------------------------------------ autocomplete (logic: src/web/suggest.ts)
+  private suggest(): void {
+    if (!this.recentLoaded) {
+      this.recentLoaded = true;
+      // saved histories (IndexedDB), read on first typing so the landing's critical path stays small; a failure just means no recent list
+      void import('../../web/histcache')
+        .then((m) => m.listHistories())
+        .then((metas) => {
+          this.recent = [...metas].sort((a, b) => b.fetchedAt - a.fetchedAt).map((m) => ({ repo: m.repo }));
+          if (document.activeElement === this.repo) this.suggest();
+        })
+        .catch(() => {});
+    }
+    this.suggester.update(this.repo.value, (list) => this.renderSuggest(list));
+  }
+
+  private renderSuggest(list: Suggestion[]): void {
+    this.options = list;
+    this.active = -1;
+    this.repo.removeAttribute('aria-activedescendant');
+    this.list.replaceChildren(
+      ...list.map((s, i) => {
+        const li = document.createElement('li');
+        li.id = `gm-sug-${i}`;
+        li.className = 'gm-sug';
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', 'false');
+        li.dataset.i = String(i);
+        const name = document.createElement('span');
+        name.className = 'gm-sug-name';
+        name.textContent = s.repo;
+        const meta = document.createElement('span');
+        meta.className = 'gm-sug-meta';
+        meta.textContent = s.detail;
+        li.append(name, meta);
+        return li;
+      }),
+    );
+    const open = list.length > 0 && document.activeElement === this.repo;
+    this.list.hidden = !open;
+    this.repo.setAttribute('aria-expanded', String(open));
+  }
+
+  private closeSuggest(): void {
+    this.suggester.cancel();
+    this.options = [];
+    this.active = -1;
+    this.list.hidden = true;
+    this.repo.setAttribute('aria-expanded', 'false');
+    this.repo.removeAttribute('aria-activedescendant');
+  }
+
+  private setActive(i: number): void {
+    const items = this.list.children;
+    items[this.active]?.setAttribute('aria-selected', 'false');
+    items[this.active]?.classList.remove('is-active');
+    this.active = i;
+    const el = items[i] as HTMLElement | undefined;
+    if (!el) return this.repo.removeAttribute('aria-activedescendant');
+    el.setAttribute('aria-selected', 'true');
+    el.classList.add('is-active');
+    this.repo.setAttribute('aria-activedescendant', el.id);
+    el.scrollIntoView?.({ block: 'nearest' });
+  }
+
+  private onSuggestKey(e: KeyboardEvent): void {
+    const open = !this.list.hidden;
+    const n = this.options.length;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!open) {
+        if (e.key === 'ArrowDown' && this.repo.value.trim()) this.suggest();
+        return;
+      }
+      e.preventDefault();
+      const next = e.key === 'ArrowDown' ? this.active + 1 : this.active - 1;
+      this.setActive(next >= n ? 0 : next < 0 ? n - 1 : next);
+    } else if (e.key === 'Enter' && open && this.active >= 0) {
+      e.preventDefault(); // select, do not submit
+      this.choose(this.active);
+    } else if (e.key === 'Escape' && open) {
+      e.stopPropagation(); // close the list first, not the overlay
+      this.closeSuggest();
+    }
+  }
+
+  private choose(i: number): void {
+    const s = this.options[i];
+    if (!s) return;
+    this.closeSuggest();
+    this.repo.value = s.repo;
+    this.setError('');
+    this.repo.focus();
   }
 
   private currentToken(): string | undefined {

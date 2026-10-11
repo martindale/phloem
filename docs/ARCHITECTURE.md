@@ -304,7 +304,7 @@ even in manual mode). While the director has authority it sets `camera.auto = fa
 - *Reduced motion*: the director still runs, with every rate and time constant scaled by 0.35 (azimuth ~0.0175 rad/s). The landing backdrop's playback stays still under reduced motion (the grown mold, paused), so only that slow camera drift remains.
 - Defaults: **always on**, in the viewer and the landing backdrop, with no way to turn it off from the site (no key, button or URL parameter; `?director` / `?orbit` in old links are ignored and dropped from the address bar). The hand-off above is what keeps the view explorable: input takes the camera at once, ~6 s of quiet gives it back.
 
-Controls: left-drag = pan (parallel to the screen, scaled by distance), middle-drag = orbit, right button = inert (context menu suppressed), wheel = zoom to cursor, double-click or `R` = reset + auto-fit,
+Controls: left-drag = pan (parallel to the screen, scaled by distance), middle-drag = orbit, right-drag = rotate left/right around the vertical axis (context menu suppressed), wheel = zoom to cursor, double-click or `R` = reset + auto-fit,
 Touch: one finger = orbit, two fingers = pinch zoom + pan, double-tap = reset.
 
 ## Running

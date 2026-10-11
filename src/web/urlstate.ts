@@ -170,7 +170,7 @@ export function stateToPatch(s: ViewerState): ParamPatch {
   if ('max' in s) p.max = s.max === undefined || s.max === DEFAULT_MAX ? null : s.max;
   if ('mode' in s) p.mode = s.mode && s.mode !== 'auto' ? s.mode : null;
   if ('commitNumber' in s) p.t = s.commitNumber && s.commitNumber > 0 ? s.commitNumber : null;
-  if ('labels' in s) p.labels = s.labels && s.labels !== 'all' ? s.labels : null;
+  if ('labels' in s) p.labels = s.labels && s.labels !== 'active' ? s.labels : null;
   if ('quality' in s) p.quality = s.quality && s.quality !== 'auto' ? s.quality : null;
   if ('speed' in s) p.speed = s.speed && Math.abs(s.speed - 1) > 1e-6 ? Number(s.speed.toFixed(2)) : null;
   // retired parameters (`?orbit`, `?director`: the cinematic camera is always on now): drop them from old shared links when the URL is rewritten

@@ -49,6 +49,8 @@ const smoothstep = (a: number, b: number, x: number): number => {
   return t * t * (3 - 2 * t);
 };
 const SEG_UNIFORMS = ['uView', 'uProj', 'uPxScale', 'uTime', 'uWobble', 'uFog', 'uRMax', 'uDistMax', 'uReach', 'uMotion', 'uBurst'];
+/** Bloom swell at the peak of a beat: +30%. */
+const PULSE_BLOOM = 0.3;
 const FINAL_UNIFORMS = ['uHdr', 'uBloom', 'uBloomStrength', 'uTime', 'uAspect', 'uLensA', 'uLensB'];
 const MOTE_UNIFORMS = [...SEG_UNIFORMS, 'uBoxC', 'uBoxR', 'uHot', 'uHotR'];
 
@@ -107,6 +109,8 @@ export class Renderer {
   width = 0;
   height = 0;
   bloomStrength = 0.6;
+  /** Music beat, 0..1 (src/util/beat.ts). Swells the bloom; the caller keeps it 0 under reduced motion. */
+  pulse = 0;
   /**
    * Draw the translucent remainder pass (anti-aliased rims, sub-pixel threads,
    * fading tubes). Off = opaque cores only: cheaper, but aliased and the fine
@@ -560,7 +564,7 @@ export class Renderer {
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, this.bloom.length ? this.bloom[0].tex : hdr.tex);
     gl.uniform1i(fp.u.uBloom, 1);
-    gl.uniform1f(fp.u.uBloomStrength, this.bloomStrength);
+    gl.uniform1f(fp.u.uBloomStrength, this.bloomStrength * (1 + PULSE_BLOOM * this.pulse));
     gl.uniform1f(fp.u.uTime, time);
     const m = Math.max(this.width, this.height);
     gl.uniform2f(fp.u.uAspect, this.width / m, this.height / m);

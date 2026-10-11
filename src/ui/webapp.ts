@@ -71,7 +71,7 @@ export class WebApp implements AppApi {
   private backdrop = false;
   private params: ViewerParams;
   private pendingT: number | null = null;
-  private savedLabels: LabelModeParam = 'all';
+  private savedLabels: LabelModeParam = 'active';
   private endedTicks = 0;
   private started = false;
   private snapIn = 0;
@@ -292,7 +292,7 @@ export class WebApp implements AppApi {
     c.chrome.setBackdrop(on);
     document.documentElement.classList.toggle('gm-backdrop', on);
     if (on) {
-      this.savedLabels = (c.labels.mode as LabelModeParam) ?? 'all';
+      this.savedLabels = (c.labels.mode as LabelModeParam) ?? 'active';
       c.setLabelMode('off');
       c.client.setSpeed(BACKDROP_SPEED);
       this.started = false;

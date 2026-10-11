@@ -2,7 +2,7 @@
 .gm-status {
   position: fixed;
   z-index: 9; /* under the viewer chrome (10), so its popovers are never covered by a status that stays up */
-  top: calc(max(10px, env(safe-area-inset-top)) + 4.6rem); /* below the top bar's tools row */
+  bottom: calc(7.4rem + 0.6rem + env(safe-area-inset-bottom)); /* bottom middle, above the timeline bar (--gm-bottom-h in chrome.css) */
   left: 50%;
   transform: translateX(-50%);
   width: min(30rem, calc(100vw - 24px));
@@ -45,6 +45,7 @@
 /* nothing on screen yet: the status is the whole page */
 .gm-status.is-center {
   top: 50%;
+  bottom: auto;
   transform: translate(-50%, -50%);
   width: min(26rem, calc(100vw - 32px));
   padding: 1.2rem 1.3rem 1.3rem;
@@ -60,5 +61,5 @@
 }
 
 @media (max-width: 520px) {
-  .gm-status:not(.is-center) { top: calc(max(10px, env(safe-area-inset-top)) + 5.3rem); }
+  .gm-status:not(.is-center) { bottom: calc(6.9rem + 0.6rem + env(safe-area-inset-bottom)); }
 }

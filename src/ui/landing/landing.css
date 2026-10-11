@@ -97,6 +97,20 @@
 .gm-landing input::placeholder { color: var(--gm-faint); opacity: 1; }
 .gm-landing input:hover, .gm-landing select:hover { border-color: var(--gm-hair-strong); }
 .gm-field input { flex: 1; }
+.gm-combo { position: relative; flex: 1; min-width: 0; display: flex; }
+.gm-combo input { width: 100%; }
+.gm-suggest {
+  position: absolute; z-index: 5; inset: calc(100% + 4px) 0 auto 0; margin: 0; padding: 0.25rem; list-style: none;
+  max-height: min(16rem, 40vh); overflow-y: auto; overscroll-behavior: contain;
+  background: #1a130a; border: 1px solid var(--gm-hair-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+.gm-suggest[hidden] { display: none; }
+.gm-sug { display: flex; flex-direction: column; gap: 0.1rem; justify-content: center; min-height: 2.75rem; padding: 0.5rem 0.65rem; border-radius: 8px; cursor: pointer; }
+.gm-sug:hover, .gm-sug.is-active { background: rgba(230, 196, 119, 0.13); }
+.gm-sug.is-active { outline: 1px solid var(--gm-hair-strong); }
+.gm-sug-name { color: var(--gm-butter); font-size: 0.95rem; overflow-wrap: anywhere; }
+.gm-sug-meta { color: var(--gm-dim); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gm-sug-meta:empty { display: none; }
 .gm-field .gm-go { border-radius: 12px; padding-inline: 1.3rem; font-size: 1rem; min-height: 2.9rem; }
 .gm-landing input[aria-invalid] { border-color: var(--gm-alert); }
 .gm-landing select option { background: #1a130a; color: var(--gm-butter); }

@@ -79,7 +79,7 @@ describe('patchSearch / withState', () => {
     expect(parseViewerParams(s)).toMatchObject({ repo: { owner: 'a', repo: 'b', branch: 'feat/x' }, max: 1000, t: 42, labels: 'off', speed: 2 });
   });
   it('omits defaults', () => {
-    expect(withState('?repo=a/b&labels=off&speed=2', { labels: 'all', speed: 1, max: DEFAULT_MAX, commitNumber: 0 })).toBe('?repo=a/b');
+    expect(withState('?repo=a/b&labels=off&speed=2', { labels: 'active', speed: 1, max: DEFAULT_MAX, commitNumber: 0 })).toBe('?repo=a/b');
   });
   it('preserves unknown parameters and their order, and puts known ones first', () => {
     expect(patchSearch('?stats&seed=3&repo=a/b', { t: 5 })).toBe('?repo=a/b&t=5&stats&seed=3');

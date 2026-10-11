@@ -1,0 +1,36 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+.gm-music {
+  position: fixed;
+  z-index: 9; /* under the viewer chrome (10), like the status pill */
+  right: max(var(--gm-gutter, 14px), env(safe-area-inset-right));
+  bottom: calc(7.4rem + 0.4rem + env(safe-area-inset-bottom)); /* above the timeline bar (--gm-bottom-h in chrome.css) */
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.35rem;
+  background: rgba(14, 9, 4, 0.78);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--gm-hair);
+  border-radius: 999px;
+  color: var(--gm-ink);
+  font-family: var(--gm-ui);
+}
+.gm-music-name { font-size: 0.78rem; color: var(--gm-dim); padding: 0 0.35rem; white-space: nowrap; }
+.gm-music-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.gm-music-btn:hover { background: rgba(230, 196, 119, 0.13); color: var(--gm-butter); }
+.gm-music-btn:focus-visible { outline: 2px solid var(--gm-amber-hi); outline-offset: 1px; }
+@media (max-width: 640px) { .gm-music { bottom: calc(6.9rem + 0.4rem + env(safe-area-inset-bottom)); } }

@@ -28,7 +28,7 @@ npm run preview      # serve dist/
 
 ## Controls
 
-Left-drag pans, middle-drag orbits, the wheel zooms, double-click or `R` resets the camera, the right button does nothing. Touch: one finger orbits, two fingers pinch and pan, double-tap resets. A cinematic camera follows the action by itself; touch the view and it hands over to you, then eases back in after a few quiet seconds.
+Left-drag pans, middle-drag orbits, right-drag rotates left and right around the vertical axis, the wheel zooms, double-click or `R` resets the camera. Touch: one finger orbits, two fingers pinch and pan, double-tap resets. A cinematic camera follows the action by itself; touch the view and it hands over to you, then eases back in after a few quiet seconds.
 `Space` play/pause, `←`/`→` previous/next commit, `L` name labels (all / active / off), `F` fullscreen, `S` frame stats (also `?stats`), `H` hide the controls. Drop a `git log` file anywhere on the page to load it.
 
 ## URL parameters

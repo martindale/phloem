@@ -13,7 +13,7 @@ server it talks to is `api.github.com`.
 2. **Viewer chrome** (`src/ui/chrome/`). Top bar: brand (back to the card), repository (link to GitHub), Names (L), Share, Authors, Fullscreen (F). Tools row: Featured (the same three repositories, by display name), GitHub token,
    Refresh history, Clear saved histories. Timeline card (date, weekday, commit N / total). Caption of the current commit. Bottom: change-size sparkline with date ticks over the scrubber
    (hover shows the date), play/pause, counter, "By date" pacing, speed. It fades after 3.5 s of playback without input (`H` hides it entirely; a paused viewer keeps its controls).
-   Mouse: left-drag pan, middle-drag orbit, wheel zoom, double-click reset (right button inert).
+   Mouse: left-drag pan, middle-drag orbit, wheel zoom, right-drag rotate left/right around the vertical axis, double-click reset.
    Keys: Space, Left/Right, F fullscreen, S stats, R reset camera, L names, H hide chrome.
    **Cinematic camera** (`src/render/director.ts`, see ARCHITECTURE.md *Camera*): **always on**, from the first frame, in the viewer and behind the landing card. It has no switch: no button, key or URL parameter (the old `C`, `O` and `?orbit` / `?director` were removed; old links still open and the parameters are dropped from the address bar). Any camera input (drag, wheel, touch, reset) hands the camera to you at once; after about 6 s without input it eases back in, so you can always explore. Under `prefers-reduced-motion` it still runs, at 35 % of every rate.
 3. **Loading, empty and error states** (`src/ui/chrome/status.ts`, `src/web/statusview.ts`, `src/ui/statusdom.ts`). Nothing on screen yet: a centred loader with progress and Cancel. Mold growing: a pill under the
@@ -32,7 +32,7 @@ Parsing and serialization live in `src/web/urlstate.ts` (pure, tested in `tests/
 | `max=N` or `max=all` | Window: the most recent N first-parent commits. **Default: `all`**, i.e. everything the quota allows (the default is omitted from shared links). Without a token the window is capped at 1,000, with one at 20,000 (`all` means that cap); a repository that does not fit the hourly quota commit by commit is shown as evenly spaced snapshots, and the card says so before you start. |
 | `mode=auto\|commits\|snapshots` | GitHub detail mode, see `docs/INGESTION.md` (default `auto`). |
 | `t=N` | Start position: **commit number N, 1-based, as the counter shows it, within the loaded window.** It is applied as soon as N commits have arrived (or the last one if the load ends shorter). Not a timestamp: the window can be sampled snapshots, so dates are not a stable key. |
-| `labels=all\|active\|off` | Name labels. |
+| `labels=all\|active\|off` | Name labels. Default `active`. |
 | `quality=auto\|high\|medium\|low` | Render quality (`auto` lets the governor step down). |
 | `speed=X` | Playback speed multiplier, 0.1 to 32 (default 1). |
 | `demo` | **Dev / test only**: the bundled StemDeck history, no network (the landing page has no link to it; the e2e suites use it). |
@@ -67,9 +67,16 @@ The viewer title and the status pill use the display name ("netbattle", not `thc
 Prebuilt histories are never written to the saved histories. The landing card shows a Featured section (display name, commit count, date range, "instant"; the numbers come from `index.json`, absent numbers just mean it could not be fetched).
 Generation, privacy rules and the weekly workflow: `docs/INGESTION.md`. Tests: `tests/featured.test.ts`, `tests/e2e/featured_check.py`.
 
+## Repository autocomplete
+
+The landing card's field is an ARIA combobox (`role=combobox`, listbox, `aria-activedescendant`; Up/Down, Enter, Escape, mouse and touch). Choosing a suggestion only fills `owner/name` and focuses the field; it never submits. Logic without DOM: `src/web/suggest.ts` (tests: `tests/suggest.test.ts`).
+Order: featured repositories, then saved histories (`listHistories()` in `histcache.ts`, read from IndexedDB on first typing), then GitHub. The GitHub part is one request, sent through `GithubApi` (same headers, the saved token as `Authorization`, only `api.github.com`):
+`GET https://api.github.com/search/repositories?q=<text>&per_page=6`, only for text of 3 to 100 characters with no `/ @ # :` and no `github.com`, after a 300 ms pause; the previous request is aborted and stale answers are ignored.
+Any failure (403, 429, network, odd body) is silent: the local list stays and searching pauses for 60 s (unauthenticated search allows about 10 requests a minute). Suggestion text is set with `textContent`; styles are CSS classes only. No CSP change.
+
 ## Content Security Policy
 
-`default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'`
+`default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://api.github.com; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'`
 (+ `frame-ancestors 'none'` where headers are possible). No inline script or style anywhere (the build sets `assetsInlineLimit: 0`; JS sets styles through the CSSOM, which CSP allows).
 The build injects it as a `<meta>` tag (so hosts that cannot set headers enforce it too; dev server excluded for HMR) and `public/_headers` / `vercel.json` repeat it as a header;
 `tests/web.test.ts` checks the three are identical, and `tests/e2e/web_check.py` fails on any `securitypolicyviolation` event.

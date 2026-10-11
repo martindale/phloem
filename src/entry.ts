@@ -7,6 +7,7 @@
 import './ui/theme.css';
 import { installDropzone } from './ui/dropzone';
 import { Landing } from './ui/landing/landing';
+import { MusicPlayer } from './ui/music';
 import { bridge } from './web/bridge';
 import { startMigration } from './web/migrate';
 import { parseViewerParams, wantsLanding } from './web/urlstate';
@@ -17,16 +18,23 @@ void startMigration();
 const params = parseViewerParams(location.search);
 const showLanding = wantsLanding(location.search);
 
+const music = new MusicPlayer(document.body);
+
 const landing = new Landing(document.body, {
   repo: params.badRepo ?? undefined,
   max: params.max,
   onVisualize: (req, max) => {
+    music.start(); // inside the click, so the browser allows sound
     void bridge.whenApp().then((app) => app.loadGithub(req, max));
   },
-  onFile: (f) => void bridge.whenApp().then((app) => app.loadFile(f)),
+  onFile: (f) => {
+    music.start();
+    void bridge.whenApp().then((app) => app.loadFile(f));
+  },
 });
 bridge.landing = landing;
 installDropzone();
+new MusicPlayer(document.body);
 
 let booted = false;
 function bootEngine(): void {

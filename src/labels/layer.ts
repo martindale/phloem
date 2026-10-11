@@ -77,7 +77,7 @@ export interface LabelStats {
 }
 
 export class LabelLayer {
-  mode: LabelMode = 'all';
+  mode: LabelMode = 'active';
   readonly stats: LabelStats = { drawn: 0, candidates: 0, ms: 0, intakeMs: 0, maxAlphaStep: 0, maxOffStep: 0, phase: [0, 0, 0, 0] };
   readonly canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
