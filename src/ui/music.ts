@@ -146,6 +146,8 @@ export class MusicPlayer {
   private sync(): void {
     const a = this.audio;
     this.render(!!a && !a.paused && !a.ended && !a.error);
+    // a track that cannot load (blocked, offline) says so, instead of a play button that silently does nothing
+    if (a?.error) this.name.textContent = 'Music unavailable';
   }
 
   private render(playing: boolean): void {

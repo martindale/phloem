@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-only */
 .gm-music {
   position: fixed;
-  z-index: 9; /* under the viewer chrome (10), like the status pill */
+  z-index: 11; /* above the status box and the viewer chrome, so a click on it is never swallowed */
   right: max(var(--gm-gutter, 14px), env(safe-area-inset-right));
   bottom: calc(7.4rem + 0.4rem + env(safe-area-inset-bottom)); /* above the timeline bar (--gm-bottom-h in chrome.css) */
   display: flex;

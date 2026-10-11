@@ -60,6 +60,10 @@
   .gm-st-bar:indeterminate { animation: none; background: var(--gm-amber); opacity: 0.6; }
 }
 
-@media (max-width: 520px) {
-  .gm-status:not(.is-center) { bottom: calc(6.9rem + 0.6rem + env(safe-area-inset-bottom)); }
+/* on a narrow window the status box would run under the music player (bottom right): lift it above the player */
+@media (max-width: 960px) {
+  .gm-status:not(.is-center) { bottom: calc(7.4rem + 3.4rem + env(safe-area-inset-bottom)); }
+}
+@media (max-width: 640px) {
+  .gm-status:not(.is-center) { bottom: calc(6.9rem + 3.4rem + env(safe-area-inset-bottom)); }
 }
