@@ -34,7 +34,6 @@ const landing = new Landing(document.body, {
 });
 bridge.landing = landing;
 installDropzone();
-new MusicPlayer(document.body);
 
 let booted = false;
 function bootEngine(): void {
